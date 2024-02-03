@@ -2,6 +2,7 @@ package bencodeParser
 
 import (
 	"errors"
+	"fmt"
 	"strconv"
 	"unicode"
 )
@@ -58,6 +59,7 @@ func (l *BencodeLexer) NextToken() (Token, error) {
 		l.current++
 		return Token{Type: End, Value: "e"}, nil
 	} else {
+		fmt.Println(string(currentChar), l.current)
 		return Token{Type: End, Value: ""}, errors.New("invalid Character")
 	}
 }

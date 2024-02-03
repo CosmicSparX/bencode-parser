@@ -23,7 +23,7 @@ func TestBencodeParser(t *testing.T) {
 	}
 
 	for _, testCase := range testCases {
-		parser := NewBencodeParser(testCase.input)
+		parser := NewBencodeParser([]rune(testCase.input))
 		result, err := parser.Parse()
 		if err != nil {
 			t.Errorf("Error parsing Bencode: %v", err)
@@ -33,4 +33,10 @@ func TestBencodeParser(t *testing.T) {
 			t.Errorf("For input '%s', expected %+v, got %+v", testCase.input, testCase.expected, result)
 		}
 	}
+
+	_, err := Open("D:\\Programming stuff\\Projects\\Go\\bitTorret Client\\torrentfile\\archlinux-2019.12.01-x86_64.iso.torrent")
+	if err != nil {
+		return
+	}
+
 }

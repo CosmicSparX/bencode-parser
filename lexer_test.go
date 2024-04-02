@@ -373,7 +373,7 @@ func TestBencodeLexer(t *testing.T) {
 	}
 
 	for _, testCase := range testCases {
-		lexer := NewBencodeLexer(testCase.input)
+		lexer := NewBencodeLexer([]byte(testCase.input))
 		for _, expectedToken := range testCase.expected {
 			token, _ := lexer.NextToken()
 			if token.Type != expectedToken.Type || token.Value != expectedToken.Value {

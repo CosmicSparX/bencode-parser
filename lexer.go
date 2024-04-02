@@ -23,16 +23,14 @@ type Token struct {
 }
 
 type BencodeLexer struct {
-	input   []rune
+	input   []byte
 	current int
 }
 
-func NewBencodeLexer(input string) *BencodeLexer {
-	return &BencodeLexer{input: []rune(input)}
-}
+func NewBencodeLexer(input []byte) *BencodeLexer { return &BencodeLexer{input: input} }
 
 func (l *BencodeLexer) NextToken() (Token, error) {
-	for l.current < len(l.input) && unicode.IsSpace(l.input[l.current]) {
+	for l.current < len(l.input) && unicode.IsSpace(rune(l.input[l.current])) {
 		l.current++
 	}
 
@@ -42,7 +40,7 @@ func (l *BencodeLexer) NextToken() (Token, error) {
 
 	currentChar := l.input[l.current]
 
-	if unicode.IsDigit(currentChar) {
+	if unicode.IsDigit(rune(currentChar)) {
 		return l.readString()
 	} else if currentChar == 'i' {
 		l.current++
@@ -71,7 +69,7 @@ func (l *BencodeLexer) readInteger() Token {
 		l.current++
 	}
 
-	for l.current < len(l.input) && unicode.IsDigit(l.input[l.current]) {
+	for l.current < len(l.input) && unicode.IsDigit(rune(l.input[l.current])) {
 		l.current++
 	}
 	end := l.current

@@ -1,12 +1,10 @@
 package bencodeParser
 
 import (
-	"bytes"
-	"fmt"
+	"io"
 	"log"
 	"os"
 	"strconv"
-	"unicode/utf8"
 )
 
 type bencodeInfo struct {
@@ -22,45 +20,42 @@ type BencodeTorrent struct {
 }
 
 type BencodeParser struct {
-	encoding []rune
+	encoding []byte
 	lexer    BencodeLexer
 }
 
-func NewBencodeParser(input []rune) *BencodeParser {
+func NewBencodeParser(input []byte) *BencodeParser {
 	return &BencodeParser{encoding: input, lexer: BencodeLexer{input: input}}
 }
 
-func Open(path string) (BencodeTorrent, error) {
+func OpenTorrent(path string) (BencodeTorrent, error) {
 	file, err := os.Open(path)
 	if err != nil {
 		return BencodeTorrent{}, err
 	}
 
-	fileInfo, err := file.Stat()
-	if err != nil {
-		log.Fatal(err)
-	}
-	fileSize := fileInfo.Size()
+	input, _ := io.ReadAll(file)
 
-	// Read the content of the torrent file
-	content := make([]byte, fileSize)
-	_, err = file.Read(content)
-	if err != nil {
-		log.Fatal(err)
-	}
-	fmt.Println(len(content), utf8.RuneCount(content))
-
-	input := bytes.Runes(content)
-
-	fmt.Println(string(input[269+39921]))
 	parser := NewBencodeParser(input)
 	raw, err := parser.Parse()
 	if err != nil {
 		log.Fatal(err)
 	}
-	fmt.Println(raw)
 
-	return BencodeTorrent{}, nil
+	data := raw.(map[string]interface{})
+	info := data["info"].(map[string]interface{})
+
+	bto := BencodeTorrent{
+		Announce: data["announce"].(string),
+		Info: bencodeInfo{
+			Length:      info["length"].(int),
+			Name:        info["name"].(string),
+			PieceLength: info["piece length"].(int),
+			Pieces:      info["pieces"].(string),
+		},
+	}
+
+	return bto, nil
 }
 
 func (p *BencodeParser) Parse() (interface{}, error) {

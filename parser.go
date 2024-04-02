@@ -7,7 +7,7 @@ import (
 	"strconv"
 )
 
-type bencodeInfo struct {
+type BencodeInfo struct {
 	Pieces      string `bencode:"pieces"`
 	PieceLength int    `bencode:"piece length"`
 	Length      int    `bencode:"length"`
@@ -16,7 +16,7 @@ type bencodeInfo struct {
 
 type BencodeTorrent struct {
 	Announce string      `bencode:"announce"`
-	Info     bencodeInfo `bencode:"info"`
+	Info     BencodeInfo `bencode:"info"`
 }
 
 type BencodeParser struct {
@@ -47,7 +47,7 @@ func OpenTorrent(path string) (BencodeTorrent, error) {
 
 	bto := BencodeTorrent{
 		Announce: data["announce"].(string),
-		Info: bencodeInfo{
+		Info: BencodeInfo{
 			Length:      info["length"].(int),
 			Name:        info["name"].(string),
 			PieceLength: info["piece length"].(int),

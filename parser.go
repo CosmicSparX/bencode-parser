@@ -1,6 +1,7 @@
 package bencodeParser
 
 import (
+	"fmt"
 	"io"
 	"log"
 	"os"
@@ -76,7 +77,8 @@ func (p *BencodeParser) Parse() (interface{}, error) {
 	case End:
 		return nil, nil
 	default:
-		panic("unhandled default case")
+		fmt.Println("pppppp")
+		return nil, nil
 	}
 }
 

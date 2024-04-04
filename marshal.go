@@ -256,7 +256,7 @@ func isEmptyValue(v reflect.Value) bool {
 	case reflect.Interface, reflect.Ptr:
 		return v.IsNil()
 	default:
-		panic("unhandled default case")
+		fmt.Println("oasdas")
 	}
 	return false
 }
@@ -269,7 +269,7 @@ func (sv stringValue) isValueNil() bool {
 	case reflect.Interface:
 		return !v.Elem().IsValid()
 	default:
-		panic("unhandled default case")
+		fmt.Println("qweqw")
 	}
 	return false
 }

@@ -36,8 +36,9 @@ func TestBencodeParser(t *testing.T) {
 		}
 	}
 
-	bto, err := OpenTorrent("D:\\Programming stuff\\Projects\\Go\\bitTorret Client\\torrentfile\\archlinux-2019.12.01-x86_64.iso.torrent")
+	bto, err := OpenTorrent("D:\\Programming stuff\\Projects\\Go\\bitTorrent Client\\torrentfile\\archlinux-2019.12.01-x86_64.iso.torrent")
 	if err != nil {
+		fmt.Println(err)
 		return
 	}
 	fmt.Printf("%v\n%v\n%v\n%v\n", bto.Announce, bto.Info.Name, bto.Info.Length, bto.Info.PieceLength)

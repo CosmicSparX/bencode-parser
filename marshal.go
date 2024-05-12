@@ -268,8 +268,6 @@ func (sv stringValue) isValueNil() bool {
 	switch v := sv.value; v.Kind() {
 	case reflect.Interface:
 		return !v.Elem().IsValid()
-	default:
-		fmt.Println("qweqw")
 	}
 	return false
 }

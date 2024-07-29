@@ -256,9 +256,8 @@ func isEmptyValue(v reflect.Value) bool {
 	case reflect.Interface, reflect.Ptr:
 		return v.IsNil()
 	default:
-		fmt.Println("oasdas")
+		return false
 	}
-	return false
 }
 
 func (sv stringValue) isValueNil() bool {
